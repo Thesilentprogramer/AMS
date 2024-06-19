@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Manager Dashboard</h1>
+
+  <h2>Leave Requests</h2>
+  <table>
+    <tr>
+      <th>Employee ID</th>
+      <th>Leave Date</th>
+      <th>Leave Reason</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    {% for request in leave_requests %}
+    <tr>
+      <td>{{ request.user_id }}</td>
+      <td>{{ request.leave_date }}</td>
+      <td>{{ request.leave_reason }}</td>
+      <td>{{ request.status }}</td>
+      <td>
+        <form action="{{ url_for('accept_leave') }}" method="post">
+          <input type="hidden" name="request_id" value="{{ request.id }}">
+          <input type="submit" value="Accept">
+        </form>
+        <form action="{{ url_for('decline_leave') }}" method="post">
+          <input type="hidden" name="request_id" value="{{ request.id }}">
+          <input type="submit" value="Decline">
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Attendance Data</h2>
+  <table>
+    <tr>
+      <th>Employee ID</th>
+      <th>Date</th>
+      <th>Check-in Time</th>
+      <th>Check-out Time</th>
+    </tr>
+    {% for attendance in attendance_data %}
+    <tr>
+      <td>{{ attendance.user_id }}</td>
+      <td>{{ attendance.date }}</td>
+      <td>{{ attendance.checkin_time }}</td>
+      <td>{{ attendance.checkout_time }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+{% endblock %}
